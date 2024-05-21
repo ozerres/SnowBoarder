@@ -8,10 +8,14 @@ public class CrashDetector : MonoBehaviour
     [SerializeField] float delayTime = 0.5f;
     [SerializeField] ParticleSystem crashEffect;
 
+    bool hasCrashed = false;
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Ground")
+        if (other.tag == "Ground" && !hasCrashed)
         {
+            hasCrashed = true;
+            FindObjectOfType<BalkirRotation>().DisableControls();
             crashEffect.Play();
             Invoke("ReloadScene", delayTime);
         }
